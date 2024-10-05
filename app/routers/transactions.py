@@ -1,6 +1,5 @@
-from fastapi import APIRouter, HTTPException
-from app.database.database import db
-from app.models.funds import TransactionModel
+from fastapi import APIRouter, HTTPException, Depends
+from app.models.funds import TransactionModel, get_db
 from app.schemas.funds import TransactionCreateSchema, TransactionCancellationSchema
 from datetime import datetime
 from bson import ObjectId
@@ -12,7 +11,7 @@ from app.settings.config import settings
 router = APIRouter()
 
 @router.get("/transactions/{client_id}", response_model=List[TransactionModel])
-async def fetch_transactions_by_user(client_id: str, limit: int = 10):
+async def fetch_transactions_by_user(client_id: str, limit: int = 10, db = Depends(get_db)):
     client = await db.clients.find_one({"_id": ObjectId(client_id)})
     if client is None:
         raise HTTPException(status_code=404, detail="Cliente no encontrado")
@@ -21,7 +20,7 @@ async def fetch_transactions_by_user(client_id: str, limit: int = 10):
     return await db.transactions.find({"client_id": client_id}).sort("transaction_date", -1).to_list(length=limit)
 
 @router.post("/transactions/subscription", response_model=TransactionModel)
-async def create_transaction(transaction: TransactionCreateSchema):
+async def create_transaction(transaction: TransactionCreateSchema, db = Depends(get_db)):
     # Obtener cliente y fondo de la base de datos
     client = await db.clients.find_one({"_id": ObjectId(transaction.client_id) })
     fund = await db.funds.find_one({"_id": ObjectId(transaction.fund_id)})
@@ -110,7 +109,7 @@ async def create_transaction(transaction: TransactionCreateSchema):
 
 
 @router.post("/transactions/cancellation", response_model=TransactionModel)
-async def cancel_transaction(transaction: TransactionCancellationSchema):
+async def cancel_transaction(transaction: TransactionCancellationSchema, db = Depends(get_db)):
     # Obtener cliente y fondo de la base de datos
     client = await db.clients.find_one({"_id": ObjectId(transaction.client_id) })
     fund = await db.funds.find_one({"_id": ObjectId(transaction.fund_id)})
