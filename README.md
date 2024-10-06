@@ -55,7 +55,12 @@ Este proyecto requiere algunas variables de entorno para funcionar correctamente
    ```bash
     python app/seeders/seed_funds.py
     ```
+6. (Opcional) Ejecutar Pruebas:
 
+   ```bash
+    cd app/
+    pytest
+    ```
 ## Uso
 
 ### Ejecutando el Servidor de Desarrollo
@@ -78,7 +83,7 @@ La API estará disponible en `http://127.0.0.1:8000`.
 
 2. Ejecutar el contenedor Docker:
     ```bash
-    docker run -d --name app-container -p 8000:8000 app-image
+    docker run -d --name app-container -p 8000:8000 app-funds-image
     ```
 
 ### Desplegando en un Proveedor de la Nube
