@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 from threading import Lock
 
 def load_env():
-    # Load environment variables from .env in the project's root directory
     dotenv_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
     if os.path.isfile(dotenv_path):
         load_dotenv(dotenv_path)
@@ -11,14 +10,14 @@ def load_env():
 
 class Settings:
     _instance = None
-    _lock: Lock = Lock()  # Ensure thread-safety
+    _lock: Lock = Lock()
 
     def __new__(cls, *args, **kwargs):
         with cls._lock:
             if cls._instance is None:
                 load_env()
                 cls._instance = super(Settings, cls).__new__(cls)
-                # Initialize settings here only once
+                # Singleton para que los settings se inicialicen solo una vez
                 cls._instance.mongo_db_url = os.environ.get('MONGO_DATABASE_URL')
                 cls._instance.aws_access_key = os.environ.get('AWS_ACCESS_KEY_ID')
                 cls._instance.aws_secret_key = os.environ.get('AWS_SECRET_ACCESS_KEY')

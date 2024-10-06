@@ -1,84 +1,85 @@
-
 # Funds BTG API (FastAPI)
 
-## Table of Contents
-- [Introduction](#introduction)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
+## Tabla de Contenidos
+- [Introducción](#introduction)
+- [Características](#features)
+- [Instalación](#installation)
+- [Uso](#usage)
+- [Despliegue](#deployment)
 
-## Introduction
-FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.
+## Introducción
+FastAPI es un framework web moderno, rápido (de alto rendimiento) para construir APIs con Python 3.7+ basado en indicaciones de tipo estándar de Python.
 
-## Features
-- High-performance thanks to Starlette and Pydantic.
-- Auto-generated interactive API documentation (Swagger UI and ReDoc).
-- Dependency injection system.
-- Asynchronous request handling.
+## Características
+- Alto rendimiento gracias a Starlette y Pydantic.
+- Documentación de API interactiva autogenerada (Swagger UI y ReDoc).
+- Sistema de inyección de dependencias.
+- Manejo de solicitudes asincrónicas.
 
-## Installation
+## Instalación
 
-### Prerequisites
+### Requisitos previos
 - Python 3.10+
 - Git
 
-### Steps
-1. Clone the repository:
+### Pasos
+1. Clonar el repositorio:
     ```bash
-    git clone https://github.com/dagiraldomu/fast-app.git
-    cd fast-app
+    git clone https://github.com/dagiraldomu/funds_fastApi.git
+    cd funds_fastApi
     ```
 
-2. Create and activate a virtual environment:
+2. Crear y activar un entorno virtual:
     ```bash
     python -m venv .venv
-    source .venv/bin/activate  # On Windows, use `env\Scripts\activate`
+    source .venv/bin/activate  # En Windows, usar `env\Scripts\activate`
     ```
 
-3. Install the dependencies:
+3. Instalar las dependencias:
     ```bash
     pip install -r requirements.txt
     ```
+   
+4. Variables de Entorno
 
-## Usage
+Este proyecto requiere algunas variables de entorno para funcionar correctamente. Las variables se cargan desde un archivo `.env`. Por razones de seguridad, el archivo `.env` real no está incluido en el control de versiones.
 
-### Running the Development Server
-To start the development server, run:
+- Crea un archivo `.env` en la raíz de tu proyecto.
+- Copia el contenido de `.env-example` a tu archivo `.env`:
+
+   ```bash
+   cp .env-example .env
+   ```
+  
+5. (Opcional) Correr los seeders para poblar la colección con los fondos por defecto 
+   ```bash
+    python app/seeders/seed_funds.py
+    ```
+
+## Uso
+
+### Ejecutando el Servidor de Desarrollo
+Para iniciar el servidor de desarrollo, ejecuta:
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
-The API will be available at `http://127.0.0.1:8000`.
+La API estará disponible en `http://127.0.0.1:8000`.
 
-### Accessing API Documentation
+### Accediendo a la Documentación de la API
 - Swagger UI: `http://127.0.0.1:8000/docs`
 - ReDoc: `http://127.0.0.1:8000/redoc`
 
-## Deployment
-### Using Docker
-1. Build the Docker image:
+## Despliegue
+### Usando Docker
+1. construir la imagen Docker:
     ```bash
-    docker build -t app-image .
+    docker build -t app-funds-image .
     ```
 
-2. Run the Docker container:
+2. Ejecutar el contenedor Docker:
     ```bash
     docker run -d --name app-container -p 8000:8000 app-image
     ```
 
-### Deploying to a Cloud Provider
-Refer to the specific cloud provider's documentation for deploying FastAPI applications (e.g., AWS, Azure, Google Cloud).
-
-### aws configure
-
-
-## Contributing
-Contributions are welcome! Please follow these steps to contribute:
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/your-feature`).
-3. Make your changes.
-4. Commit your changes (`git commit -m 'Add some feature'`).
-5. Push to the branch (`git push origin feature/your-feature`).
-6. Open a Pull Request.
-
+### Desplegando en un Proveedor de la Nube
+Consulta la documentación específica del proveedor de nube para desplegar aplicaciones FastAPI (por ejemplo, AWS, Azure, Google Cloud).
